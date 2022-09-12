@@ -7,15 +7,14 @@
     xhr.responseType = 'json';
   
     let url = options.url;
-    let formData = null;
+    let formData = new FormData();
   
     if (options.data) {
       if (options.method === 'GET') {
         url += '?' + Object.entries(options.data).map(
           ([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
         ).join('&');
-      } else {        
-        formData = new formData();
+      } else {
         Object.entries(options.data).forEach(pair => formData.append(...pair));
       }
     }
