@@ -14,10 +14,10 @@ class UserWidget {
   constructor(element){
     this.element = element;
     
-   if(element === undefined) {
-      const errorGetElement = new Error('Элемент не существует');
-      throw errorGetElement;
-   }
+    if(!element) {
+       const errorGetElement = new Error('Элемент не существует');
+       throw errorGetElement;
+    }
   }
 
   /**

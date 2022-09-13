@@ -12,16 +12,16 @@ class AsyncForm {
    * Сохраняет переданный элемент и регистрирует события
    * через registerEvents()
    * */
-  constructor(element) {
+  constructor(element) {    
     this.element = element;
     this.registerEvents();
 
-   if(element === undefined) {
+    if(element === undefined) {
       const errorGetElement = new Error('Элемент не существует');
       throw errorGetElement;
    }
-
   }
+
   /**
    * Необходимо запретить отправку формы и в момент отправки
    * вызывает метод submit()
@@ -32,8 +32,7 @@ class AsyncForm {
         e.preventDefault();
         this.submit();
       };
-    }
-    catch {
+    } catch {
       alert(errorGetElement);
     }
   }

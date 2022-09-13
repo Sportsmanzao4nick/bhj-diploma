@@ -10,14 +10,13 @@ class CreateTransactionForm extends AsyncForm {
   constructor(element) {
     super(element);
     this.renderAccountsList();
-    let nameModal;
   }
 
   /**
    * Получает список счетов с помощью Account.list
    * Обновляет в форме всплывающего окна выпадающий список
    * */
-   renderAccountsList() {   
+  renderAccountsList() {
     let addList; 
   
     this.element[1].value = null;     
@@ -57,7 +56,6 @@ class CreateTransactionForm extends AsyncForm {
     });
   }
 
-
   /**
    * Создаёт новую транзакцию (доход или расход)
    * с помощью Transaction.create. По успешному результату
@@ -65,13 +63,17 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-    Transaction.create(data, (err, resp) => {
-      if (resp && resp.success) {
-          App.getModal(this.nameModal).close();  
-          App.update()
-      } else {        
-        App.getModal('createAccount').close(); 
+    const modal = this.element.closest('.modal').dataset.modalId;
+    Transaction.create(data, (err, response) => {
+      if (response.success) {
+        App.update();
+        this.element.reset();
+        if (modal === 'newExpense') {
+          App.getModal('newExpense').close();
+        } else {
+          App.getModal('newIncome').close();
+        }
       }
-  });
+    });
   }
 }

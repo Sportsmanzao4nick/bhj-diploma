@@ -14,7 +14,7 @@ class TransactionsWidget {
   constructor( element ) {
     this.element = element;
     
-    if(element === undefined) {
+    if(!element) {
        const errorGetElement = new Error('Элемент не существует');
        throw errorGetElement;
     }
@@ -27,18 +27,14 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
-    const transactionsPanel = document.querySelectorAll('.transactions-panel');
-    transactionsPanel.forEach(element => {
-      element.addEventListener('click', (event) => {
-        if(event.target.className.includes('btn-success')) {
-            App.getModal('newIncome').open();
-            App.updateForms();
-        }
-        if(event.target.className.includes('btn-danger')) {
-            App.getModal('newExpense').open();
-            App.updateForms();  
-        }
-      });
-    });
+    this.element.addEventListener('click', (elem) => {
+      if (elem.target.classList.contains('create-income-button')) {
+        App.getModal('newIncome').open();
+      }
+
+      if (elem.target.classList.contains('create-expense-button')) {
+        App.getModal('newExpense').open();
+      }
+    })
   }
 }

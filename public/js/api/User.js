@@ -8,10 +8,12 @@ class User {
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
+
+  static url = '/user';
+
   static setCurrent(user) {
     localStorage.setItem('user', JSON.stringify(user));
-    }
-  
+  }
 
   /**
    * Удаляет информацию об авторизованном
@@ -19,7 +21,6 @@ class User {
    * */
   static unsetCurrent() {
     localStorage.removeItem('user');
-    localStorage.removeItem('lastOptions');
   }
 
   /**
@@ -30,23 +31,23 @@ class User {
     const user = localStorage.getItem('user');
     return user? JSON.parse(user):user;
   }
-  
 
   /**
    * Получает информацию о текущем
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-    createRequest ({
-      url: this.URL +'/current',
+    createRequest({
+      url: `${this.url}/current`,
       method: 'GET',
       callback: (err, response) => {
         if (response && response.user) {
-          this.setCurrent(response.user);
-        } else{          
+          this.current(response.user);
+        } else {
           this.unsetCurrent();
         }
-          callback(err, response);
+
+        callback(err, response);
       }
     });
   }
@@ -59,7 +60,7 @@ class User {
    * */
   static login(data, callback) {
     createRequest({
-      url: this.URL + '/login',
+      url: `${this.url}/login`,
       method: 'POST',
       responseType: 'json',
       data,
@@ -80,15 +81,14 @@ class User {
    * */
   static register(data, callback) {
     createRequest({
-      url: this.URL + '/register',
+      url: `${this.url}/register`,
       method: 'POST',
       data,
       callback: (err, response) => {
         if (response && response.user) {
           this.setCurrent(response.user);
-        } else {
-          console.log(err);
-        } 
+        }
+
         callback(err, response);
       }
     });
@@ -100,15 +100,15 @@ class User {
    * */
   static logout(callback) {
     createRequest({
-      url: this.URL + '/logout',
+      url: this.url + '/logout',
       method: 'POST',
       callback: (err, response) => {
-        if (response) {        
+        if (response.success) {
           this.unsetCurrent();
-        }else err;
+        }
+        
         callback(err, response);
       }
     });
   }
-}  
-User.URL = '/user';
+}
