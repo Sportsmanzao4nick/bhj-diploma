@@ -14,8 +14,7 @@ class RegisterForm extends AsyncForm {
       if(resp && resp.user) {
         this.element.reset();
         App.setState('user-logged');
-        App.getModal('register').close();
-        UserWidget.update();     
+        App.getModal('register').close();             
       } else {
         this.element.reset();
         App.getModal('register').close();
